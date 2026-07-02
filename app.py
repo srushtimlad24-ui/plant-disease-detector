@@ -22,7 +22,7 @@ except Exception as e:
 
 # Header text layout
 st.title("🌱 Intelligent Plant Leaf Disease Detector")
-st.write("--- SYSTEM VERSION 2.0 ACTIVE --- Upload a leaf image below.")
+st.write("Upload a leaf image to detect potential diseases using our deep learning model")
 
 # Upload widget
 uploaded_file = st.file_uploader("Upload leaf image...", type=["jpg", "jpeg", "png"])

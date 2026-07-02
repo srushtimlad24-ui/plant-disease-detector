@@ -3,6 +3,8 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 from classes import PLANT_CLASSES
+# Import authentic MobileNetV2 preprocessing utility
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 # Set layout parameters
 st.set_page_config(page_title="Plant Disease Predictor", page_icon="🌱", layout="centered")
@@ -31,20 +33,26 @@ if uploaded_file is not None:
     st.image(user_image, caption='Uploaded Leaf Image', use_column_width=True)
     st.write("🔄 Analyzing visual markers...")
     
-    # Standardize image array to match original model pipeline conditions
+    # 1. Standardize image array to match original model dimensions
+    # IMPORTANT: Ensure (224, 224) matches the target size from your training notebook exactly
     resized_img = user_image.resize((224, 224))
     image_array = np.array(resized_img)
     
     # Strip alpha transparency channel if present
     if image_array.shape[-1] == 4:
         image_array = image_array[:, :, :3]
+    
+    # UNCOMMENT THE LINE BELOW ONLY IF YOU USED OPENCV (cv2) TO TRAIN YOUR MODEL:
+    # image_array = image_array[:, :, ::-1]
         
-    # Standardize scale down to 0-1 metrics and inject batch dimensions
-    image_array = image_array.astype('float32') / 255.0
+    # 2. Inject batch dimensions
     image_array = np.expand_dims(image_array, axis=0)
     
+    # 3. Scale input using authentic MobileNetV2 metrics (-1 to 1) instead of dividing by 255.0
+    processed_image = preprocess_input(image_array.astype('float32'))
+    
     # Execute network prediction matrix
-    raw_predictions = model.predict(image_array)
+    raw_predictions = model.predict(processed_image)
     top_index = np.argmax(raw_predictions[0])
     confidence_score = raw_predictions[0][top_index] * 100
     
@@ -53,13 +61,12 @@ if uploaded_file is not None:
     presentable_name = assigned_label.replace("___", " - ").replace("_", " ")
     
     # Display analytics dashboard banner output
-    st.success("🤖 Analysis complete!")
+    st.success("Analysis complete!")
     
-    # Check if the plant is healthy to fire off celebration balloons
     if "healthy" in presentable_name.lower():
         st.balloons()
         
-    # Render the output layout to match the target layout perfectly
+    # Clean design block layout
     st.markdown(f"### Prediction: `{presentable_name}`")
     
     st.write("**Confidence Score**")

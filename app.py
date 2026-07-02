@@ -67,26 +67,17 @@ if uploaded_file is not None:
     
     st.write("**Confidence Score**")
     
-    # --- CUSTOM LARGE FONT STYLE BLOCK ---
+    # Clean text-only custom sizing without any backgrounds
     st.markdown(f"""
-        <div style="
-            background-color: #ffffff; 
-            padding: 15px 20px; 
-            border-radius: 10px; 
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
-            border-left: 6px solid #1e4620;
-            margin-bottom: 10px;
+        <p style="
+            font-size: 38px; 
+            color: #1e4620; 
+            font-weight: 700; 
+            margin: 0px 0px 10px 0px; 
+            line-height: 1;
         ">
-            <h1 style="
-                font-size: 65px; 
-                color: #1e4620; 
-                font-weight: 800; 
-                margin: 0; 
-                line-height: 1.1;
-            ">
-                {confidence_score:.2f}%
-            </h1>
-        </div>
+            {confidence_score:.2f}%
+        </p>
     """, unsafe_allow_html=True)
     
     st.progress(int(confidence_score))

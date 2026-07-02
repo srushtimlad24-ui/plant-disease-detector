@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 from classes import PLANT_CLASSES
-# Import authentic MobileNetV2 preprocessing utility
+# FIX: Import the exact preprocessing function MobileNetV2 was trained on
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 # Set layout parameters
@@ -21,7 +21,7 @@ except Exception as e:
     st.stop()
 
 # Header text layout
-st.title("🌱 Intelligent Plant Leaf Disease Detector")
+st.title("🌱 Plant Leaf Disease Detector")
 st.write("Upload a crisp image of a crop leaf below, and our pre-trained network will detect its health status.")
 
 # Upload widget
@@ -33,22 +33,18 @@ if uploaded_file is not None:
     st.image(user_image, caption='Uploaded Leaf Image', use_column_width=True)
     st.write("🔄 Analyzing visual markers...")
     
-    # 1. Standardize image array to match original model dimensions
-    # IMPORTANT: Ensure (224, 224) matches the target size from your training notebook exactly
+    # Standardize image array to match original model pipeline conditions
     resized_img = user_image.resize((224, 224))
     image_array = np.array(resized_img)
     
     # Strip alpha transparency channel if present
     if image_array.shape[-1] == 4:
         image_array = image_array[:, :, :3]
-    
-    # UNCOMMENT THE LINE BELOW ONLY IF YOU USED OPENCV (cv2) TO TRAIN YOUR MODEL:
-    # image_array = image_array[:, :, ::-1]
         
-    # 2. Inject batch dimensions
+    # Inject batch dimensions
     image_array = np.expand_dims(image_array, axis=0)
     
-    # 3. Scale input using authentic MobileNetV2 metrics (-1 to 1) instead of dividing by 255.0
+    # FIX: Use authentic MobileNetV2 scale (-1 to 1) instead of dividing by 255.0
     processed_image = preprocess_input(image_array.astype('float32'))
     
     # Execute network prediction matrix
@@ -66,7 +62,7 @@ if uploaded_file is not None:
     if "healthy" in presentable_name.lower():
         st.balloons()
         
-    # Clean design block layout
+    # Render the layout to match your target image design perfectly
     st.markdown(f"### Prediction: `{presentable_name}`")
     
     st.write("**Confidence Score**")

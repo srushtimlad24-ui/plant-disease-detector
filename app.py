@@ -21,7 +21,7 @@ except Exception as e:
     st.stop()
 
 # Header text layout
-st.title("🌱 Plant Leaf Disease Detector")
+st.title("🌱 Intelligent Plant Leaf Disease Detector")
 st.write("Upload a crisp image of a crop leaf below, and our pre-trained network will detect its health status.")
 
 # Upload widget

@@ -57,7 +57,7 @@ if uploaded_file is not None:
     presentable_name = assigned_label.replace("___", " - ").replace("_", " ")
     
     # Display analytics dashboard banner output
-    st.success("Analysis complete!")
+    st.success("Analysis complete!🎉")
     
     if "healthy" in presentable_name.lower():
         st.balloons()

@@ -71,7 +71,7 @@ if uploaded_file is not None:
     st.markdown(f"""
         <p style="
             font-size: 38px; 
-            color: #1e4620; 
+            color: #ffffff; 
             font-weight: 700; 
             margin: 0px 0px 10px 0px; 
             line-height: 1;

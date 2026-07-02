@@ -28,7 +28,7 @@ uploaded_file = st.file_uploader("Upload leaf image...", type=["jpg", "jpeg", "p
 if uploaded_file is not None:
     # Render user's image onto dashboard
     user_image = Image.open(uploaded_file)
-    st.image(user_image, caption='Uploaded Photo Reference', use_column_width=True)
+    st.image(user_image, caption='Uploaded Leaf Image', use_column_width=True)
     st.write("🔄 Analyzing visual markers...")
     
     # Standardize image array to match original model pipeline conditions
@@ -53,13 +53,15 @@ if uploaded_file is not None:
     presentable_name = assigned_label.replace("___", " - ").replace("_", " ")
     
     # Display analytics dashboard banner output
-    st.success("### Diagnostic Analysis Complete!")
+    st.success("🤖 Analysis complete!")
     
+    # Check if the plant is healthy to fire off celebration balloons
     if "healthy" in presentable_name.lower():
         st.balloons()
-        st.markdown(f"### Health Diagnosis Status: **Healthy** ✅")
-    else:
-        st.markdown(f"### Health Diagnosis Status: **{presentable_name}** ⚠️")
         
-    st.write(f"**Model Diagnostic Confidence Metric:** {confidence_score:.2f}%")
+    # Render the output layout to match the target layout perfectly
+    st.markdown(f"### Prediction: `{presentable_name}`")
+    
+    st.write("**Confidence Score**")
+    st.subheader(f"{confidence_score:.2f}%")
     st.progress(int(confidence_score))

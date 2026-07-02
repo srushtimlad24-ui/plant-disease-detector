@@ -57,7 +57,7 @@ if uploaded_file is not None:
     presentable_name = assigned_label.replace("___", " - ").replace("_", " ")
     
     # Display analytics dashboard banner output
-    st.success("Analysis complete!🎉")
+    st.success("🎉Analysis complete!")
     
     if "healthy" in presentable_name.lower():
         st.balloons()
@@ -66,5 +66,27 @@ if uploaded_file is not None:
     st.markdown(f"### Prediction: `{presentable_name}`")
     
     st.write("**Confidence Score**")
-    st.subheader(f"{confidence_score:.2f}%")
+    
+    # --- CUSTOM LARGE FONT STYLE BLOCK ---
+    st.markdown(f"""
+        <div style="
+            background-color: #ffffff; 
+            padding: 15px 20px; 
+            border-radius: 10px; 
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+            border-left: 6px solid #1e4620;
+            margin-bottom: 10px;
+        ">
+            <h1 style="
+                font-size: 65px; 
+                color: #1e4620; 
+                font-weight: 800; 
+                margin: 0; 
+                line-height: 1.1;
+            ">
+                {confidence_score:.2f}%
+            </h1>
+        </div>
+    """, unsafe_allow_html=True)
+    
     st.progress(int(confidence_score))

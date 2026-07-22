@@ -62,7 +62,7 @@ with st.sidebar:
         )
 
 # ---- Header ----
-st.title("Intelligent plant leaf disease detector")
+st.title("🌿Intelligent plant leaf disease detector")
 st.caption("Deep learning based leaf disease screening")
 
 if uploaded_file is None:

@@ -104,7 +104,7 @@ with col2:
     if is_healthy:
         st.success(f"✅ {presentable_name}")
     else:
-        st.error(f"⚠️ {presentable_name}")
+        st.error(f"✅ {presentable_name}")
 
     st.metric("Confidence", f"{confidence_score:.1f}%")
     st.progress(min(max(int(confidence_score), 0), 100))

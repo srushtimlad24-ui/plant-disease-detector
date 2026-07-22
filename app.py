@@ -1,6 +1,7 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
+import random
 from PIL import Image
 from classes import PLANT_CLASSES
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
@@ -64,6 +65,37 @@ def get_care_tip(label: str) -> str:
     return "Isolate the affected plant if possible and consult your local agricultural extension for a tailored treatment plan."
 
 
+def show_emoji_burst(emoji: str, count: int = 16):
+    spans = "".join(
+        f'<span style="left:{random.randint(2, 96)}%; '
+        f'animation-delay:{random.uniform(0, 0.6):.2f}s; '
+        f'font-size:{random.randint(20, 36)}px;">{emoji}</span>'
+        for _ in range(count)
+    )
+    st.markdown(f"""
+        <style>
+        .emoji-burst {{
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
+        }}
+        .emoji-burst span {{
+            position: absolute;
+            top: 100%;
+            animation: emoji-rise 2.2s ease-out forwards;
+        }}
+        @keyframes emoji-rise {{
+            0% {{ transform: translateY(0) rotate(0deg); opacity: 1; }}
+            100% {{ transform: translateY(-100vh) rotate(360deg); opacity: 0; }}
+        }}
+        </style>
+        <div class="emoji-burst">{spans}</div>
+    """, unsafe_allow_html=True)
+
+
 # Cache model loading so it doesn't slow down the site on every button click
 @st.cache_resource
 def load_trained_model():
@@ -90,7 +122,7 @@ with st.sidebar:
         )
 
 # ---- Header ----
-st.title("*🌿*Intelligent plant leaf disease detector")
+st.title("Intelligent plant leaf disease detector")
 st.caption("Spotting plant disease with computer vision")
 
 if uploaded_file is None:
@@ -137,7 +169,7 @@ with col2:
     else:
         accent = "#c2410c"
         badge_bg = "#fff3e0"
-        icon = "✅"
+        icon = "🎉"
         badge_label = "Disease detected"
 
     st.markdown(f"""
@@ -195,8 +227,7 @@ with col2:
         </div>
     """, unsafe_allow_html=True)
 
-if is_healthy:
-    st.balloons()
+show_emoji_burst("🎉")
 
 # ---- Full breakdown ----
 with st.expander("See full prediction breakdown"):

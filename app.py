@@ -169,7 +169,7 @@ with col2:
     else:
         accent = "#c2410c"
         badge_bg = "#fff3e0"
-        icon = "🎉"
+        icon = "✅"
         badge_label = "Disease detected"
 
     st.markdown(f"""
